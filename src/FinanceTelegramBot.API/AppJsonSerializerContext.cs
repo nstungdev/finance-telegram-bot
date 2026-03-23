@@ -8,6 +8,7 @@ namespace FinanceTelegramBot.API;
 
 [JsonSerializable(typeof(APIGatewayHttpApiV2ProxyRequest))]
 [JsonSerializable(typeof(APIGatewayHttpApiV2ProxyResponse))]
+[JsonSerializable(typeof(HealthResponse))]
 [JsonSerializable(typeof(TelegramSendMessageRequest))]
 [JsonSerializable(typeof(TelegramWebhookUpdateRequest))]
 [JsonSerializable(typeof(TelegramMessage))]
@@ -15,3 +16,5 @@ internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 
 }
+
+public record HealthResponse(string Status);
