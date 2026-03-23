@@ -76,8 +76,13 @@ jobs:
         run: |
           FUNC_URL=$(aws cloudformation describe-stacks \
             --stack-name ${{ env.SAM_STACK_NAME }} \
-            --query "Stacks[0].Outputs[?OutputKey=='FunctionUrl'].OutputValue" \
+            --query "Stacks[0].Outputs[?OutputKey=='FunctionUrl'].OutputValue | [0]" \
             --output text)
+          echo "Function URL: $FUNC_URL"
+          if [ -z "$FUNC_URL" ] || [ "$FUNC_URL" = "None" ]; then
+            echo "::error::Function URL not found in stack outputs"
+            exit 1
+          fi
           echo "function_url=$FUNC_URL" >> "$GITHUB_OUTPUT"
 
   set-webhook:
