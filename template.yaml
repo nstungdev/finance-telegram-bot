@@ -23,7 +23,7 @@ Resources:
     Properties:
       FunctionName: finance-telegram-bot
       Handler: FinanceTelegramBot.API
-      Runtime: dotnet8
+      Runtime: dotnet10
       CodeUri: artifacts/publish/
       Architectures:
         - x86_64
