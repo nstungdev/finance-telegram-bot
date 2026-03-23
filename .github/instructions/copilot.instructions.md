@@ -47,6 +47,14 @@ Always prioritize reliability and fast cold starts on serverless deployments wit
 - Do not log credentials, tokens, or connection strings.
 - Preserve existing architecture boundaries (`API` -> `Core` -> `Infrastructure`).
 
+## DTO Naming Conventions
+
+- Use `*Request` for inbound API DTOs (request body, query binding, command-like inputs).
+- Use `*Response` for outbound API DTOs returned to clients.
+- Use `*Payload` for transport-specific models used only when calling external services (for example Telegram request/response envelopes).
+- Avoid mixing `Input` and `Request` in the same feature; prefer `Request` consistently.
+- Keep one DTO type per file and align filename with the type name.
+
 ## Logging Rules
 
 ### Where to log

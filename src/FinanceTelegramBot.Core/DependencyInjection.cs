@@ -1,5 +1,6 @@
 using FinanceTelegramBot.Core.HttpClients;
 using FinanceTelegramBot.Core.Options;
+using FinanceTelegramBot.Core.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http.Resilience;
@@ -25,6 +26,9 @@ public static class DependencyInjection
 				client.DefaultRequestHeaders.Add("Accept", "application/json");
             })
 			.AddStandardResilienceHandler(ConfigureStandardResilience);
+
+		services.AddSingleton<ITelegramPriceMessageFormatter, TelegramPriceMessageFormatter>();
+		services.AddScoped<ITelegramWebhookService, TelegramWebhookService>();
 
 		return services;
 	}
