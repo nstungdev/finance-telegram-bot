@@ -1,0 +1,4 @@
+[
+  { "command": "gold", "description": "Today's gold price (USD/oz)" },
+  { "command": "usd", "description": "Today's USD exchange rate (VND/USD)" }
+]
