@@ -87,16 +87,6 @@ jobs:
             -d "allowed_updates=[\"message\"]" \
             -d "drop_pending_updates=true"
 
-  sync-bot-commands:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: telegram-bot-commands.json
-          sparse-checkout-cone-mode: false
-
       - name: Check Bot Commands Changed
         id: check-commands
         run: |

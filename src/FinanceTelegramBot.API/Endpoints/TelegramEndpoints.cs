@@ -27,7 +27,8 @@ public static class TelegramEndpoints
                 return TypedResults.BadRequest(ex.Message);
             }
         })
-        .WithName("SendTelegramMessage");
+        .WithName("SendTelegramMessage")
+        .RequireRateLimiting("fixed");
 
         group.MapPost("/telegram/webhook", async Task<Results<Ok, BadRequest<string>>> (
             TelegramWebhookUpdateRequest update,
@@ -46,7 +47,8 @@ public static class TelegramEndpoints
             }
         })
         .WithName("TelegramWebhook")
-        .WithSummary("Receives Telegram webhook updates and replies for supported commands.");
+        .WithSummary("Receives Telegram webhook updates and replies for supported commands.")
+        .RequireRateLimiting("webhook");
 
         return endpoints;
     }
