@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FinanceTelegramBot API on Lambda with Function URL (no API Gateway).
+
+Parameters:
+  TelegramBotToken:
+    Type: String
+    NoEcho: true
+    Description: Telegram Bot API token.
+  TelegramDefaultChatId:
+    Type: String
+    Default: ''
+    Description: Default Telegram chat ID for fallback replies.
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 256
+
+Resources:
+  FinanceTelegramBotFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: finance-telegram-bot
+      Handler: FinanceTelegramBot.API
+      Runtime: dotnet8
+      CodeUri: artifacts/publish/
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          TelegramBot__BaseUrl: https://api.telegram.org
+          TelegramBot__BotToken: !Ref TelegramBotToken
+          TelegramBot__DefaultChatId: !Ref TelegramDefaultChatId
+      FunctionUrlConfig:
+        AuthType: NONE
+
+Outputs:
+  FunctionUrl:
+    Description: Lambda Function URL (public, no API Gateway cost).
+    Value: !GetAtt FinanceTelegramBotFunctionUrl.FunctionUrl
+  FunctionArn:
+    Description: Lambda function ARN.
+    Value: !GetAtt FinanceTelegramBotFunction.Arn
+  FunctionName:
+    Description: Lambda function name.
+    Value: !Ref FinanceTelegramBotFunction

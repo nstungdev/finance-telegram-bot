@@ -1,3 +1,5 @@
+using Amazon.Lambda.AspNetCoreServer;
+using Amazon.Lambda.Serialization.SystemTextJson;
 using FinanceTelegramBot.API;
 using FinanceTelegramBot.API.Endpoints;
 using FinanceTelegramBot.Core;
@@ -11,6 +13,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 });
 
 builder.Services.AddCoreServices(builder.Configuration);
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi, new SourceGeneratorLambdaJsonSerializer<AppJsonSerializerContext>());
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -24,6 +27,10 @@ if (app.Environment.IsDevelopment())
 }
 
 var api = app.MapGroup("/api").WithTags("API");
+
+api.MapGet("/health", () => Results.Ok(new { status = "healthy" }))
+    .WithName("HealthCheck")
+    .WithTags("Health");
 
 api.MapTelegramEndpoints();
 
